@@ -1,0 +1,12 @@
+{% extends 'bases/single.html' %}
+
+{% block contenido-post %}
+    <div class="container-formulario">
+        <h1>Crear nuevo Evento</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="button large" type="submit">Publicar</button>
+        </form>
+    </div>
+{% endblock %}

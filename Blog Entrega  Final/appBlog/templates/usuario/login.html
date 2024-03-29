@@ -1,0 +1,14 @@
+{% extends 'bases/single.html' %}
+
+{% block contenido-post %}
+
+<div class="container-formulario">
+<form action="" method="post">
+    {% csrf_token %}
+    <table>
+        {{form.as_p}}
+    </table>
+    <input class="button large" type="submit" value="Enviar">
+</form>
+</div>
+{% endblock  %}

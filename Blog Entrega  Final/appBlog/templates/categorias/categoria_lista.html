@@ -1,0 +1,32 @@
+{% extends 'bases/single.html' %}
+
+{% block contenido-post %}
+<div class="titulo-categorias">
+    <h2>Categorias</h2>
+    <a href="{% url 'categoria_crear' %}" class="btn-comentario">
+        <i class="fa fa-lg fa-plus" ></i>
+    </a>
+</div>
+
+
+<div class="categorias-container">
+    {% for categoria in categorias %}
+    <div class="categoria-item">
+        <h3 class="titulo-categoria">{{ categoria.nombre }}</h3>
+        {% if categoria.imagen %}
+            <img src="{{ categoria.imagen.url }}" alt="{{ categoria.nombre }}" class="categoria-imagen">
+        {% endif %}
+        <p class="card-text">{{ categoria.descripcion|truncatewords:12 }}</p>
+            <footer>
+                <ul class="lista">
+                    <li><a href="{% url 'categoria_eliminar' categoria.id %}" class="button large">Eliminar</a></li>
+                    <li><a href="{% url 'categoria_editar' categoria.id %}" class="button large">Editar</a></li>
+                </ul>
+            </footer>
+    </div>
+    
+    {% endfor %}
+</div>
+
+
+{% endblock %}

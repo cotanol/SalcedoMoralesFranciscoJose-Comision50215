@@ -1,0 +1,11 @@
+{% extends 'bases/single.html' %}
+
+{% block contenido-post %}
+<div class="container-formulario">
+<h2>¿Estás seguro de que quieres eliminar esta categoria?</h2>
+<form method="post">
+    {% csrf_token %}
+    <button class="button large" type="submit">Sí, eliminar categoria</button>
+</form>
+</div>
+{% endblock %}

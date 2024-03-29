@@ -1,0 +1,44 @@
+{% extends 'bases/single.html' %}
+{% load static %}
+
+{% block contenido-post %}
+    <!-- Post -->
+        <article class="post">
+            <header>
+                <div class="title">
+                    <h2><span href="#">{{publicacion.titulo}}</span></h2>
+                    <p>
+                        {% for categoria in publicacion.categorias.all %}
+                            {{ categoria.nombre }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                </div>
+                <div class="meta">
+                    <time class="published" datetime="{{ publicacion.fecha_publicacion|date:'Y-m-d' }}">{{publicacion.fecha_publicacion|date:"F d, Y"}}</time>
+                    <span href="#" class="author"><span class="name">{{publicacion.autor}}</span><img src="{{publicacion.autor.avatar.imagen.url}}" alt="" /></span>
+                </div>
+            </header>
+            {% if publicacion.imagen %}
+            <span class="image featured"><img src="{{publicacion.imagen.url}}" alt="" /></span>
+            {% else%}
+            <span class="image featured"><img src="{% static 'images/post-default.webp' %}" alt="" /></span>
+            {% endif %}
+            <p>{{publicacion.contenido|linebreaks}}</p>
+
+            <footer>
+                <ul class="stats flex">
+                    <div class="separacion">
+                        <li><a href="{% url 'comentario_lista' publicacion_pk=publicacion.id %}" class="btn-comentario">Ver Comentarios</a></li>
+                        <li><a href="{% url 'comentario_crear' publicacion_pk=publicacion.id%}" class="btn-comentario">Comentar</a></li>
+                    </div>
+                    <div>
+                        <ul class="stats">
+                            <li><a href="{% url 'publicacion_eliminar' publicacion.id %}">Eliminar</a></li>
+                            <li><a href="{% url 'publicacion_editar' publicacion.id %}">Editar</a></li>
+                        </ul>
+                    <div>
+                </ul>
+                
+            </footer>
+        </article>
+{% endblock %}

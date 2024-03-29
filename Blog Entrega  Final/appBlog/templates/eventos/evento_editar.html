@@ -1,0 +1,11 @@
+{% extends 'bases/single.html' %}
+
+{% block contenido-post %}
+<div class="container-formulario">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="button large" type="submit">Guardar Evento</button>
+    </form>
+</div>
+{% endblock %}

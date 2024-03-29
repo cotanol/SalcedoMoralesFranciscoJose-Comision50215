@@ -1,0 +1,65 @@
+{% extends 'bases/single.html' %}
+
+{% load static %}
+
+{% block contenido-post %}
+
+<!-- Post -->
+<article class="post">
+    <header>
+        <div class="title">
+            <h2><span href="#">{{publicacion.titulo}}</span></h2>
+            <p>
+                {% for categoria in publicacion.categorias.all %}
+                    {{ categoria.nombre }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+        <div class="meta">
+            <time class="published" datetime="{{ publicacion.fecha_publicacion|date:'Y-m-d' }}">{{publicacion.fecha_publicacion|date:"F d, Y"}}</time>
+            <span href="#" class="author"><span class="name">{{publicacion.autor}}</span><img src="{{publicacion.autor.avatar.imagen.url}}" alt="" /></span>
+        </div>
+    </header>
+
+    {% if publicacion.imagen %}
+    <span class="image featured"><img src="{{publicacion.imagen.url}}" alt="" /></span>
+    {% else%}
+    <span class="image featured"><img src="{% static 'images/post-default.webp' %}" alt="" /></span>
+    {% endif %}
+    
+    <p>{{publicacion.contenido|linebreaks}}</p>
+
+    <footer>
+        <ul class="stats">
+            <li><a href="{% url 'publicacion_eliminar' publicacion.id %}">Eliminar</a></li>
+            <li><a href="{% url 'publicacion_editar' publicacion.id %}">Editar</a></li>
+            <li><a href="{% url 'comentario_crear' publicacion_pk=publicacion.id %}" class="btn-comentario">Comentar</a></li>
+        </ul>
+    </footer>
+</article>
+
+<h2>Comentarios</h2>
+{% for comentario in object_list %}
+
+<div class="comentario">
+    <div class="comentario-texto">
+        <p>{{ comentario.contenido }}</p>
+        <div class="comentario-metadata">
+            <small>{{ comentario.fecha_publicacion }}</small>
+        </div>
+    </div>
+    <div class="comentario-footer">
+        <div class="autor-info">
+            <img class="autor-avatar" src="{{ comentario.autor.avatar.imagen.url }}" alt="" />
+            <span class="autor-nombre">{{ comentario.autor }}</span>
+        </div>
+        <div class="acciones">
+            <a href="{% url 'comentario_editar' publicacion_pk=publicacion.id comentario_pk=comentario.id %}" class="accion">Editar</a>
+            <a href="{% url 'comentario_eliminar' publicacion_pk=publicacion.id comentario_pk=comentario.id %}" class="accion">Eliminar</a>
+        </div>
+    </div>
+</div>
+
+{% endfor %}
+
+{% endblock %}

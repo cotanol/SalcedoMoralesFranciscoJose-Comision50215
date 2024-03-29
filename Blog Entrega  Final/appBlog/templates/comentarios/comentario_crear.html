@@ -1,0 +1,13 @@
+{% extends 'bases/single.html' %}
+
+{% block contenido-post %}
+<div class="container-formulario">
+<h2>Crear Comentario</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="button large" type="submit">Publicar Comentario</button>
+    </form>
+</div>
+{% endblock %}

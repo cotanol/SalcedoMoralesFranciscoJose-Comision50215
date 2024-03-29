@@ -1,0 +1,118 @@
+{% extends 'bases/index.html' %}
+
+{% load static %}
+
+{% block contenido %}
+    {% for evento in eventos %}
+    
+    <!-- Post -->
+    <article class="post">
+        <header>
+            <div class="title">
+                <h2><a href="{% url 'evento_detalle' evento.id  %}">{{evento.titulo}}</a></h2>
+                <p>
+                    Fecha del evento: {{ evento.fecha_evento }}
+                </p>
+            </div>
+            <div class="meta">
+                <time class="published" datetime="{{evento.fecha_publicacion|date:'Y-m-d'}}">{{evento.fecha_publicacion|date:"F d, Y"}}</time>
+                <span href="#" class="author"><span class="name">{{evento.autor}}</span>
+                    <img src="{{evento.autor.avatar.imagen.url}}" alt="" />
+                </span>
+            </div>
+        </header>
+
+        {% if evento.imagen %}
+            <a href="{% url 'evento_detalle' evento.id %}" class="image featured"><img src="{{ evento.imagen.url }}" alt="" /></a>
+        {% else %}
+            <a href="{% url 'evento_detalle' evento.id %}" class="image featured"><img src="" alt="{% static 'images/post-default.webp' %}" /></a>
+        {% endif %}
+
+        <p>{{evento.descripcion|truncatewords:50}}</p>
+
+        <footer>
+            <ul class="actions">
+                <li><a href="{% url 'evento_detalle' evento.id %}" class="button large">Continuar</a></li>
+            </ul>
+            <ul class="stats">
+                <li><a href="{% url 'evento_eliminar' evento.id %}">Eliminar</a></li>
+                <li><a href="{% url 'evento_editar' evento.id %}">Editar</a></li>
+            </ul>
+        </footer>
+    </article>
+    {% empty %}
+        <p>No hay nada que mostrar</p>
+    {% endfor %}
+
+    <!-- Pagination -->
+    <ul class="actions pagination">
+        {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}" class="button large previous">Previous Page</a></li>
+        {% else %}
+            <li><span class="disabled button large previous">Previous Page</span></li>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}" class="button large next">Next Page</a></li>
+        {% else %}
+            <li><span class="disabled button large next">Next Page</span></li>
+        {% endif %}
+    </ul>
+
+{% endblock %}
+
+{% block texto-pagina %}
+<p>Encuentra los ultimos eventos publicados</p>
+{% endblock %}
+
+{% block sidebar %}
+
+<!-- Mini Posts -->
+    <section>
+        <div class="mini-posts">
+
+            {% for evento in ultimos_eventos %}
+            <!-- Mini Post -->
+                <article class="mini-post">
+                    <header>
+                        <h3><a href="{% url 'evento_detalle' evento.id %}">{{evento.titulo}}</a></h3>
+                        <time class="published" datetime="{{evento.fecha_evento|date:'Y-m-d'}}">Start: {{evento.fecha_evento|date:"F d, Y"}}</time>
+                        <span href="#" class="author"><img src="{{evento.autor.avatar.imagen.url}}" alt="" /></span>
+                    </header>
+                    {% if evento.imagen %}
+                        <a href="{% url 'evento_detalle' evento.id %}" class="image"><img src="{{evento.imagen.url}}" alt="" /></a> 
+                    {% else %}
+                        <a href="{% url 'evento_detalle' evento.id %}" class="image"><img src="{% static 'images/post-default.webp' %}" alt="Imagen por defecto" /></a>
+                    {% endif %}
+                    
+                </article>
+
+            {% endfor %}
+
+        </div>
+    </section>
+
+<!-- Posts List -->
+    <section>
+        <ul class="posts">
+            {% for evento in ultimos_eventos %}
+            <li>
+                <article>
+                    <header>
+                        <h3><a href="{% url 'evento_detalle' evento.id %}">{{evento.titulo}}</a></h3>
+                        <time class="published" datetime="{{evento.fecha_evento|date:'Y-m-d'}}">{{evento.fecha_evento|date:"F d, Y"}}</time>
+                    </header>
+
+                    {% if evento.imagen %}
+                        <a href="{% url 'evento_detalle' evento.id %}" class="image"><img src="{{evento.imagen.url}}" alt="" /></a> 
+                    {% else %}
+                        <a href="{% url 'evento_detalle' evento.id %}" class="image"><img src="{% static 'images/post-default.webp' %}" alt="Imagen por defecto" /></a>
+                    {% endif %}
+                    
+                </article>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+{% endblock %}

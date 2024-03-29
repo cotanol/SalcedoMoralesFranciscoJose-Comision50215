@@ -1,0 +1,36 @@
+{% extends 'bases/single.html' %}
+
+{% block contenido-post %}
+    {% load static %}
+    <!-- Post -->
+        <article class="post">
+            <header>
+                <div class="title">
+                    <h2><span href="#">{{evento.titulo}}</span></h2>
+                    <p>
+                        Fecha del evento: {{ evento.fecha_evento }}
+                    </p>
+                </div>
+                <div class="meta">
+                    <time class="published" datetime="{{ evento.fecha_publicacion|date:'Y-m-d' }}">{{evento.fecha_publicacion|date:"F d, Y"}}</time>
+                    <span href="#" class="author"><span class="name">{{evento.autor}}</span><img src="{{evento.autor.avatar.imagen.url}}" alt="" /></span>
+                </div>
+            </header>
+
+            {% if evento.imagen %}
+                <span class="image featured"><img src="{{ evento.imagen.url }}" alt="" /></span>
+            {% else %}
+                <span class="image featured"><img src="" alt="{% static 'images/post-default.webp' %}" /></span>
+            {% endif %}
+            
+            <p>{{evento.descripcion|linebreaks}}</p>
+
+            <footer>
+                <ul class="stats">
+                    <li><a href="{% url 'evento_eliminar' evento.id %}">Eliminar</a></li>
+                    <li><a href="{% url 'evento_editar' evento.id %}">Editar</a></li>
+                    
+                </ul>
+            </footer>
+        </article>
+{% endblock %}

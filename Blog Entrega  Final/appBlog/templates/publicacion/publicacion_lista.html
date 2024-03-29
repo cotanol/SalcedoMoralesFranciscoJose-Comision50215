@@ -1,0 +1,120 @@
+{% extends 'bases/index.html' %}
+
+{% load static %}
+
+{% block contenido %}
+    {% for publicacion in publicaciones %}
+    
+    <!-- Post -->
+    <article class="post">
+        <header>
+            <div class="title">
+                <h2><a href="{% url 'publicacion_detalle' publicacion.id  %}">{{publicacion.titulo}}</a></h2>
+                <p>
+                    {% for categoria in publicacion.categorias.all %}
+                        {{ categoria.nombre }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+            </div>
+            <div class="meta">
+                <time class="published" datetime="{{publicacion.fecha_publicacion|date:'Y-m-d'}}">{{publicacion.fecha_publicacion|date:"F d, Y"}}</time>
+                <span href="#" class="author"><span class="name">{{publicacion.autor}}</span>
+                    <img src="{{publicacion.autor.avatar.imagen.url}}" alt="" />
+                </span>
+            </div>
+        </header>
+
+        {% if publicacion.imagen %}
+            <a href="{% url 'publicacion_detalle' publicacion.id %}" class="image featured"><img src="{{ publicacion.imagen.url }}" alt="" /></a>
+        {% else %}
+            <a href="{% url 'publicacion_detalle' publicacion.id %}" class="image featured"><img src="{% static 'images/post-default.webp' %}" alt="Imagen por defecto" /></a>
+        {% endif %}
+
+        <p>{{publicacion.contenido|truncatewords:50}}</p>
+
+        <footer>
+            <ul class="actions">
+                <li><a href="{% url 'publicacion_detalle' publicacion.id %}" class="button large">Continuar</a></li>
+            </ul>
+            <ul class="stats">
+                <li><a href="{% url 'publicacion_eliminar' publicacion.id %}">Eliminar</a></li>
+                <li><a href="{% url 'publicacion_editar' publicacion.id %}">Editar</a></li>
+            </ul>
+        </footer>
+    </article>
+    {% empty %}
+        <h3>No hay nada que mostrar</h3>
+    {% endfor %}
+
+    <!-- Pagination -->
+    <ul class="actions pagination">
+        {% if page_obj.has_previous %}
+            <li><a href="?page={{ page_obj.previous_page_number }}" class="button large previous">Previous Page</a></li>
+        {% else %}
+            <li><span class="disabled button large previous">Previous Page</span></li>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <li><a href="?page={{ page_obj.next_page_number }}" class="button large next">Next Page</a></li>
+        {% else %}
+            <li><span class="disabled button large next">Next Page</span></li>
+        {% endif %}
+    </ul>
+
+{% endblock %}
+
+{% block texto-pagina %}
+<p>Encuentra las nuevas publicaciones publicadas</p>
+{% endblock %}
+
+{% block sidebar %}
+
+<!-- Mini Posts -->
+    <section>
+        <div class="mini-posts">
+
+            {% for publicacion in ultimas_publicaciones %}
+            <!-- Mini Post -->
+                <article class="mini-post">
+                    <header>
+                        <h3><a href="{% url 'publicacion_detalle' publicacion.id %}">{{publicacion.titulo}}</a></h3>
+                        <time class="published" datetime="{{publicacion.fecha_publicacion|date:'Y-m-d'}}">{{publicacion.fecha_publicacion|date:"F d, Y"}}</time>
+                        <span href="#" class="author"><img src="{{publicacion.autor.avatar.imagen.url}}" alt="" /></span>
+                    </header>
+                    {% if publicacion.imagen %}
+                        <a href="{% url 'publicacion_detalle' publicacion.id %}" class="image"><img src="{{publicacion.imagen.url}}" alt="" /></a> 
+                    {% else %}
+                        <a href="{% url 'publicacion_detalle' publicacion.id %}" class="image"><img src="{% static 'images/post-default.webp' %}" alt="Imagen por defecto" /></a>
+                    {% endif %}
+                    
+                </article>
+
+            {% endfor %}
+
+        </div>
+    </section>
+
+<!-- Posts List -->
+    <section>
+        <ul class="posts">
+            {% for publicacion in ultimas_publicaciones %}
+            <li>
+                <article>
+                    <header>
+                        <h3><a href="{% url 'publicacion_detalle' publicacion.id %}">{{publicacion.titulo}}</a></h3>
+                        <time class="published" datetime="{{publicacion.fecha_publicacion|date:'Y-m-d'}}">{{publicacion.fecha_publicacion|date:"F d, Y"}}</time>
+                    </header>
+
+                    {% if publicacion.imagen %}
+                        <a href="{% url 'publicacion_detalle' publicacion.id %}" class="image"><img src="{{publicacion.imagen.url}}" alt="" /></a> 
+                    {% else %}
+                        <a href="{% url 'publicacion_detalle' publicacion.id %}" class="image"><img src="{% static 'images/post-default.webp' %}" alt="Imagen por defecto" /></a>
+                    {% endif %}
+                    
+                </article>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+{% endblock %}

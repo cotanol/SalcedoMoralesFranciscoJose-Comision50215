@@ -1,0 +1,11 @@
+{% extends 'bases/single.html' %}
+
+{% block contenido-post %}
+    <h2>Confirmar eliminación</h2>
+    <p>¿Estás seguro de que deseas eliminar la publicación "{{publicacion.titulo}}"?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button class="button large" type="submit">Eliminar</button>
+    </form>
+{% endblock %}

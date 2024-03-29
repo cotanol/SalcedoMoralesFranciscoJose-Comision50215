@@ -1,0 +1,40 @@
+{% extends 'bases/single.html' %}
+{% load static %}
+
+{% block contenido-post %}
+    <!-- Post -->
+        <article class="post" id="about-titulo">
+            <header id="border-about">
+                <div class="title centrar">
+                    <h2><span href="#">Hola, estás en mi presentacion</span></h2>
+                </div>
+                <div class="meta" id="centrar-imagen-about">
+                    <span href="#" class="author" id="author-about"><img src="{% static 'images/yo.jpeg' %}" height="100" width="100" /></span>
+                </div>
+            </header>
+        </article>
+
+        <article class="post">
+            <span class="image featured"><img src="{% static 'images/peru.webp' %}" alt="" /></span>
+            <p>
+                Mi nombre es Francisco José Salcedo Morales. Tengo 23 años y nací en Perú, el país de los Incas, del cual estoy profundamente orgulloso. Actualmente, sigo residiendo aquí en Perú, aunque estoy abierto a lo que el futuro pueda traer.
+        </article>
+
+        <article class="post">
+            <span class="image featured"><img src="{% static 'images/universidad.jpg' %}" alt="" /></span>
+            <p>
+                Actualmente, soy estudiante en la Universidad Nacional Federico Villarreal, un prestigioso centro de estudios ubicado en Lima, donde estoy cursando la carrera de Ingeniería de Sistemas. Esta área de estudio no solo me fascina por su constante evolución y su impacto en el mundo, sino que también me desafía a expandir mis conocimientos y habilidades cada día.
+            </p>
+            <p>
+                Reconociendo la importancia de la comunicación global en el campo de la tecnología, también me he dedicado al estudio del inglés. Considero que dominar este idioma es una habilidad esencial en el sector de la ingeniería de sistemas, ya que me permite acceder a un vasto universo de conocimientos, colaborar con profesionales de todo el mundo y abrir puertas a oportunidades internacionales
+            </p>
+        </article>
+
+        <article class="post">
+            <span class="image featured"><img src="{% static 'images/aprender.webp' %}" alt="" /></span>
+            <p>
+                Para finalizar, mi deseo de seguir aprendiendo no conoce límites, especialmente en el campo de la tecnología, que me apasiona profundamente. Estoy convencido de que el futuro nos depara aplicaciones y desarrollos tecnológicos aún más impresionantes, siempre que los guiemos por un camino positivo y ético. Esta visión me motiva a continuar esforzándome y a contribuir con mi granito de arena para asegurar que la tecnología avance de manera responsable y beneficiosa para todos.
+            </p>
+        </article>
+        
+{% endblock %}
